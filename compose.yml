@@ -5,6 +5,16 @@ services:
       - "50021:50021"
     restart: always
 
+  db:
+    image: postgres:18
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    env_file:
+      - docker/db/.env
+    ports:
+      - "5432:5432"
+    restart: always
+
   backend:
     build:
       context: .
@@ -17,3 +27,8 @@ services:
     volumes:
       - ./:/workdir
     tty: true
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
