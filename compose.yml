@@ -1,0 +1,19 @@
+services:
+  voicevox:
+    image: voicevox/voicevox_engine:nvidia-latest
+    ports:
+      - "50021:50021"
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./:/workdir
+    tty: true
